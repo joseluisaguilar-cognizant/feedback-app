@@ -19,7 +19,7 @@ const Header: FunctionComponent<IHeader> = ({
   };
 
   return (
-    <header className='header' style={headerStyles}>
+    <header style={headerStyles}>
       <div className='container'>
         <h2>{text}</h2>
       </div>

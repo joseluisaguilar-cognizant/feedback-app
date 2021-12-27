@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import IFeedback from '../../../../interfaces/feedback.interface';
 
-import Card from '../../shared/Card/Card';
+import Card from '../../shared/components/Card/Card';
 
 interface IFeedbackItem {
   feedbackElem: IFeedback;

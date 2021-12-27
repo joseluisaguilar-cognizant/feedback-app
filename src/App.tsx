@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import uniqid from 'uniqid';
 
 import Header from './modules/dashboard/components/Header/Header';
 import FeedbackData from './data/feedback.data';
@@ -10,7 +11,18 @@ import FeedbackForm from './modules/dashboard/components/FeedbackForm/FeedbackFo
 
 const App: React.FC = () => {
   const [feedback, setFeedback] = useState<Array<IFeedback>>(FeedbackData);
-  const deleteFeedback = (id: number) => {
+
+  const createFeedback = (newFeedback: Partial<IFeedback>) => {
+    const newFeedbackWithId: IFeedback = {
+      ...newFeedback,
+      id: uniqid(),
+    } as IFeedback;
+
+    setFeedback((prevValue: Array<IFeedback>) => {
+      return [newFeedbackWithId, ...prevValue];
+    });
+  };
+  const deleteFeedback = (id: string) => {
     if (window.confirm('Are you sure')) {
       setFeedback((prevValue: Array<IFeedback>) =>
         prevValue.filter((feedback: IFeedback) => feedback.id !== id)
@@ -22,7 +34,7 @@ const App: React.FC = () => {
     <>
       <Header text='Feedback UI' />
       <div className='container'>
-        <FeedbackForm />
+        <FeedbackForm handleCreate={createFeedback} />
         <FeedbackStats feedback={feedback} />
         <FeedbackList feedback={feedback} handleDelete={deleteFeedback} />
       </div>

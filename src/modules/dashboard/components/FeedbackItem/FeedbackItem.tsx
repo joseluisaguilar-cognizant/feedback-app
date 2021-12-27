@@ -6,7 +6,7 @@ import Card from '../../shared/components/Card/Card';
 
 interface IFeedbackItem {
   feedbackElem: IFeedback;
-  handleDelete: (id: number) => void;
+  handleDelete: (id: string) => void;
 }
 
 const FeedbackItem: FunctionComponent<IFeedbackItem> = ({

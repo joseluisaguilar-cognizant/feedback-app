@@ -4,7 +4,7 @@ import FeedbackItem from '../FeedbackItem/FeedbackItem';
 
 interface IFeedbackList {
   feedback: Array<IFeedback>;
-  handleDelete: (id: number) => void;
+  handleDelete: (id: string) => void;
 }
 
 const FeedbackList: FunctionComponent<IFeedbackList> = ({

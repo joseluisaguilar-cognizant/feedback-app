@@ -1,5 +1,5 @@
 interface IFeedback {
-  id: number;
+  id: string;
   rating: number;
   text: string;
 }

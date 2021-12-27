@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import uniqid from 'uniqid';
 
 import Header from './modules/dashboard/components/Header/Header';
@@ -8,6 +9,8 @@ import FeedbackList from './modules/dashboard/components/FeedbackList/FeedbackLi
 import './index.scss';
 import FeedbackStats from './modules/dashboard/components/FeedbackStats/FeedbackStats';
 import FeedbackForm from './modules/dashboard/components/FeedbackForm/FeedbackForm';
+import AboutPage from './modules/about/screens/AboutPage/AboutPage';
+import AboutIcon from './modules/dashboard/shared/components/AboutIcon/AboutIcon';
 
 const App: React.FC = () => {
   const [feedback, setFeedback] = useState<Array<IFeedback>>(FeedbackData);
@@ -31,14 +34,28 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
+    <Router>
       <Header text='Feedback UI' />
+
       <div className='container'>
-        <FeedbackForm handleCreate={createFeedback} />
-        <FeedbackStats feedback={feedback} />
-        <FeedbackList feedback={feedback} handleDelete={deleteFeedback} />
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <>
+                <FeedbackForm handleCreate={createFeedback} />
+                <FeedbackStats feedback={feedback} />
+                <FeedbackList
+                  feedback={feedback}
+                  handleDelete={deleteFeedback}
+                />
+                <AboutIcon />
+              </>
+            }></Route>
+          <Route path='/about' element={<AboutPage />} />
+        </Routes>
       </div>
-    </>
+    </Router>
   );
 };
 

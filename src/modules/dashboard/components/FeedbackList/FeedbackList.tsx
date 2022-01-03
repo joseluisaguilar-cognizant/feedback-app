@@ -3,12 +3,13 @@ import IFeedback from '../../../../interfaces/feedback.interface';
 import FeedbackItem from '../FeedbackItem/FeedbackItem';
 import { FeedbackContext } from '../../../../context/FeedbackContext';
 
-interface IFeedbackList {
-  handleDelete: (id: string) => void;
-}
+// NO PROPS NO INTERFACE
+// interface IFeedbackList {
+//   handleDelete: (id: string) => void;
+// }
 
-const FeedbackList: FunctionComponent<IFeedbackList> = ({ handleDelete }) => {
-  const { feedback } = useContext(FeedbackContext);
+const FeedbackList: FunctionComponent = () => {
+  const { feedback, deleteFeedback } = useContext(FeedbackContext);
 
   if (!feedback || !feedback.length) {
     return <p>No feedback yet</p>;
@@ -20,7 +21,7 @@ const FeedbackList: FunctionComponent<IFeedbackList> = ({ handleDelete }) => {
           <FeedbackItem
             key={feedbackElem.id}
             feedbackElem={feedbackElem}
-            handleDelete={handleDelete}
+            handleDelete={deleteFeedback}
           />
         );
       })}

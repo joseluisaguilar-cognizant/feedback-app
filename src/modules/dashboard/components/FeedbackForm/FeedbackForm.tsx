@@ -2,24 +2,24 @@ import {
   ChangeEvent,
   FormEvent,
   FunctionComponent,
+  useContext,
   useRef,
   useState,
 } from 'react';
+import { FeedbackContext } from '../../../../context/FeedbackContext';
 
 import IFeedback from '../../../../interfaces/feedback.interface';
 import Button from '../../shared/components/Button/Button';
 import Card from '../../shared/components/Card/Card';
 import RatingSelect from '../RatingSelect/RatingSelect';
 
-interface IFeedbackForm {
-  handleCreate: (newFeedback: Partial<IFeedback>) => void;
-}
-
-const FeedbackForm: FunctionComponent<IFeedbackForm> = ({ handleCreate }) => {
+const FeedbackForm: FunctionComponent = () => {
   const [text, setText] = useState<string>('');
   const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
   const [rating, setRating] = useState<number>(10);
+
+  const { createFeedback } = useContext(FeedbackContext);
 
   const formEl = useRef(null);
 
@@ -28,7 +28,7 @@ const FeedbackForm: FunctionComponent<IFeedbackForm> = ({ handleCreate }) => {
 
     const newFeedback: Partial<IFeedback> = { text, rating };
 
-    handleCreate(newFeedback);
+    createFeedback(newFeedback);
     resetForm();
   };
 

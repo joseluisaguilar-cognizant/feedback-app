@@ -6,8 +6,6 @@ import {
   useEffect,
 } from 'react';
 
-import uniqid from 'uniqid';
-
 import FeedbackData from '../data/feedback.data';
 import IFeedback from '../interfaces/feedback.interface';
 
@@ -57,14 +55,21 @@ export const FeedbackProvider: FunctionComponent<IFeedbackProvider> = ({
     setIsLoading(false);
   };
 
-  const createFeedback = (newFeedback: Partial<IFeedback>): void => {
-    const newFeedbackWithId: IFeedback = {
-      ...newFeedback,
-      id: uniqid(),
-    } as IFeedback;
+  const createFeedback = async (
+    newFeedback: Partial<IFeedback>
+  ): Promise<void> => {
+    const response = await fetch('/feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newFeedback),
+    });
+
+    const data = await response.json();
 
     setFeedback((prevValue: Array<IFeedback>) => {
-      return [newFeedbackWithId, ...prevValue];
+      return [data, ...prevValue];
     });
   };
 
@@ -76,18 +81,35 @@ export const FeedbackProvider: FunctionComponent<IFeedbackProvider> = ({
     });
   };
 
-  const deleteFeedback = (id: string): void => {
+  const deleteFeedback = async (id: string): Promise<void> => {
     if (window.confirm('Are you sure')) {
+      void (await fetch(`/feedback/${id}`, {
+        method: 'DELETE',
+      }));
+
       setFeedback((prevValue: Array<IFeedback>) =>
         prevValue.filter((feedback: IFeedback) => feedback.id !== id)
       );
     }
   };
 
-  const updateFeedback = (id: string, item: Partial<IFeedback>): void => {
+  const updateFeedback = async (
+    id: string,
+    item: Partial<IFeedback>
+  ): Promise<void> => {
+    const response = await fetch(`/feedback/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    });
+
+    const data = await response.json();
+
     setFeedback((preValue: Array<IFeedback>) =>
       preValue.map((feedback: IFeedback) =>
-        feedback.id === id ? { ...feedback, ...item } : feedback
+        feedback.id === id ? { ...feedback, ...data } : feedback
       )
     );
   };

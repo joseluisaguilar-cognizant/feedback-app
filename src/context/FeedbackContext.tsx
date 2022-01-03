@@ -1,4 +1,10 @@
-import { createContext, FunctionComponent, ReactNode, useState } from 'react';
+import {
+  createContext,
+  FunctionComponent,
+  ReactNode,
+  useState,
+  useEffect,
+} from 'react';
 
 import uniqid from 'uniqid';
 
@@ -12,6 +18,7 @@ interface IFeedbackContext {
   editFeedback: (item: IFeedback) => void;
   updateFeedback: (id: string, item: Partial<IFeedback>) => void;
   feedbackEdit: IFeedbackEdit;
+  isLoading: boolean;
 }
 
 interface IFeedbackProvider {
@@ -30,11 +37,27 @@ export const FeedbackContext = createContext<IFeedbackContext>(
 export const FeedbackProvider: FunctionComponent<IFeedbackProvider> = ({
   children,
 }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [feedback, setFeedback] = useState<Array<IFeedback>>(FeedbackData);
   const [feedbackEdit, setFeedbackEdit] = useState<IFeedbackEdit>({
     item: {} as IFeedback,
     isEnableEditMode: false,
   });
+
+  useEffect(() => {
+    void fetchFeedbackData();
+  }, []);
+
+  // Fetch feedback
+  const fetchFeedbackData = async (): Promise<void> => {
+    const response = await fetch(
+      'http://localhost:5000/feedback?_sort=id&_order=desc'
+    );
+    const data = await response.json();
+
+    setFeedback(data);
+    setIsLoading(false);
+  };
 
   const createFeedback = (newFeedback: Partial<IFeedback>): void => {
     const newFeedbackWithId: IFeedback = {
@@ -64,7 +87,6 @@ export const FeedbackProvider: FunctionComponent<IFeedbackProvider> = ({
   };
 
   const updateFeedback = (id: string, item: Partial<IFeedback>): void => {
-    console.log(id);
     setFeedback((preValue: Array<IFeedback>) =>
       preValue.map((feedback: IFeedback) =>
         feedback.id === id ? { ...feedback, ...item } : feedback
@@ -81,6 +103,7 @@ export const FeedbackProvider: FunctionComponent<IFeedbackProvider> = ({
         editFeedback,
         updateFeedback,
         feedbackEdit,
+        isLoading,
       }}>
       {children}
     </FeedbackContext.Provider>

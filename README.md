@@ -1,5 +1,7 @@
 # Feedback UI
 
+Netlify Deployment: https://bt-feedback-ui.netlify.app/
+
 ![Feedback UI screenshot](./src/assets/ScreenshotUI.png)
 
 # Getting Started with Create React App

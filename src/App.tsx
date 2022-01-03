@@ -11,6 +11,7 @@ import FeedbackStats from './modules/dashboard/components/FeedbackStats/Feedback
 import FeedbackForm from './modules/dashboard/components/FeedbackForm/FeedbackForm';
 import AboutPage from './modules/about/screens/AboutPage/AboutPage';
 import AboutIcon from './modules/dashboard/shared/components/AboutIcon/AboutIcon';
+import { FeedbackProvider } from './context/FeedbackContext';
 
 const App: React.FC = () => {
   const [feedback, setFeedback] = useState<Array<IFeedback>>(FeedbackData);
@@ -34,28 +35,27 @@ const App: React.FC = () => {
   };
 
   return (
-    <Router>
-      <Header text='Feedback UI' />
+    <FeedbackProvider>
+      <Router>
+        <Header text='Feedback UI' />
 
-      <div className='container'>
-        <Routes>
-          <Route
-            path='/'
-            element={
-              <>
-                <FeedbackForm handleCreate={createFeedback} />
-                <FeedbackStats feedback={feedback} />
-                <FeedbackList
-                  feedback={feedback}
-                  handleDelete={deleteFeedback}
-                />
-                <AboutIcon />
-              </>
-            }></Route>
-          <Route path='/about' element={<AboutPage />} />
-        </Routes>
-      </div>
-    </Router>
+        <div className='container'>
+          <Routes>
+            <Route
+              path='/'
+              element={
+                <>
+                  <FeedbackForm handleCreate={createFeedback} />
+                  <FeedbackStats />
+                  <FeedbackList handleDelete={deleteFeedback} />
+                  <AboutIcon />
+                </>
+              }></Route>
+            <Route path='/about' element={<AboutPage />} />
+          </Routes>
+        </div>
+      </Router>
+    </FeedbackProvider>
   );
 };
 

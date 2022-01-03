@@ -1,15 +1,14 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import IFeedback from '../../../../interfaces/feedback.interface';
 import { getAverage } from '../../../../utils/utils';
-
-interface IFeedbackStats {
-  feedback: Array<IFeedback>;
-}
+import { FeedbackContext } from '../../../../context/FeedbackContext';
 
 const getRates = (feedback: Array<IFeedback>): Array<number> =>
   feedback.map((feedbackElem: IFeedback) => feedbackElem.rating);
 
-const FeedbackStats: FunctionComponent<IFeedbackStats> = ({ feedback }) => {
+const FeedbackStats: FunctionComponent = () => {
+  const { feedback } = useContext(FeedbackContext);
+
   const average = getAverage(...getRates(feedback));
 
   return (

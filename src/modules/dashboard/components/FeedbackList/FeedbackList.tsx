@@ -1,16 +1,15 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import IFeedback from '../../../../interfaces/feedback.interface';
 import FeedbackItem from '../FeedbackItem/FeedbackItem';
+import { FeedbackContext } from '../../../../context/FeedbackContext';
 
 interface IFeedbackList {
-  feedback: Array<IFeedback>;
   handleDelete: (id: string) => void;
 }
 
-const FeedbackList: FunctionComponent<IFeedbackList> = ({
-  feedback,
-  handleDelete,
-}) => {
+const FeedbackList: FunctionComponent<IFeedbackList> = ({ handleDelete }) => {
+  const { feedback } = useContext(FeedbackContext);
+
   if (!feedback || !feedback.length) {
     return <p>No feedback yet</p>;
   }

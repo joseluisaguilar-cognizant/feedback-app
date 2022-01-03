@@ -5,6 +5,7 @@ import {
   useContext,
   useRef,
   useState,
+  useEffect,
 } from 'react';
 import { FeedbackContext } from '../../../../context/FeedbackContext';
 
@@ -19,7 +20,21 @@ const FeedbackForm: FunctionComponent = () => {
   const [message, setMessage] = useState<string>('');
   const [rating, setRating] = useState<number>(10);
 
-  const { createFeedback } = useContext(FeedbackContext);
+  const { createFeedback, updateFeedback, feedbackEdit } =
+    useContext(FeedbackContext);
+
+  useEffect(() => {
+    const {
+      item: { text, rating },
+      isEnableEditMode,
+    } = feedbackEdit;
+
+    if (isEnableEditMode) {
+      setBtnDisabled(false);
+      setText(text);
+      setRating(rating);
+    }
+  }, [feedbackEdit]);
 
   const formEl = useRef(null);
 
@@ -28,7 +43,12 @@ const FeedbackForm: FunctionComponent = () => {
 
     const newFeedback: Partial<IFeedback> = { text, rating };
 
-    createFeedback(newFeedback);
+    if (feedbackEdit.isEnableEditMode) {
+      updateFeedback(feedbackEdit.item.id, newFeedback);
+    } else {
+      createFeedback(newFeedback);
+    }
+
     resetForm();
   };
 
@@ -43,7 +63,7 @@ const FeedbackForm: FunctionComponent = () => {
     const {
       target: { value },
     } = event;
-    const isValid = new RegExp('^[a-zA-Z0-9_, ]{10,}$').test(text);
+    const isValid = new RegExp('^[a-zA-Z0-9_,. ]{10,}$').test(text);
 
     setText(value);
 

@@ -1,25 +1,29 @@
-import { FunctionComponent } from 'react';
-import { FaTimes } from 'react-icons/fa';
+import { FunctionComponent, useContext } from 'react';
+import { FaTimes, FaEdit } from 'react-icons/fa';
+import { FeedbackContext } from '../../../../context/FeedbackContext';
 import IFeedback from '../../../../interfaces/feedback.interface';
 
 import Card from '../../shared/components/Card/Card';
 
 interface IFeedbackItem {
   feedbackElem: IFeedback;
-  handleDelete: (id: string) => void;
 }
 
 const FeedbackItem: FunctionComponent<IFeedbackItem> = ({
-  feedbackElem: { id, rating, text },
-  handleDelete,
+  feedbackElem,
 }: IFeedbackItem) => {
+  const { deleteFeedback, editFeedback } = useContext(FeedbackContext);
+
   return (
     <Card>
-      <div className='num-display'>{rating}</div>
-      <button onClick={() => handleDelete(id)} className='close'>
+      <div className='num-display'>{feedbackElem.rating}</div>
+      <button onClick={() => deleteFeedback(feedbackElem.id)} className='close'>
         <FaTimes color='purple' />
       </button>
-      <div className='text-display'>{text}</div>
+      <button onClick={() => editFeedback(feedbackElem)} className='edit'>
+        <FaEdit color='purple' />
+      </button>
+      <div className='text-display'>{feedbackElem.text}</div>
     </Card>
   );
 };

@@ -9,7 +9,7 @@ import { FeedbackContext } from '../../../../context/FeedbackContext';
 // }
 
 const FeedbackList: FunctionComponent = () => {
-  const { feedback, deleteFeedback } = useContext(FeedbackContext);
+  const { feedback } = useContext(FeedbackContext);
 
   if (!feedback || !feedback.length) {
     return <p>No feedback yet</p>;
@@ -18,11 +18,7 @@ const FeedbackList: FunctionComponent = () => {
     <div className='feedback-list'>
       {feedback.map((feedbackElem: IFeedback) => {
         return (
-          <FeedbackItem
-            key={feedbackElem.id}
-            feedbackElem={feedbackElem}
-            handleDelete={deleteFeedback}
-          />
+          <FeedbackItem key={feedbackElem.id} feedbackElem={feedbackElem} />
         );
       })}
     </div>

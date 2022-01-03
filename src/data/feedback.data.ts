@@ -8,12 +8,12 @@ const FeedbackData: Array<IFeedback> = [
   },
   {
     id: '2',
-    rating: 9.5,
+    rating: 9,
     text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. consequuntur vel vitae commodi alias voluptatem est voluptatum ipsa quae.',
   },
   {
     id: '3',
-    rating: 8,
+    rating: 6,
     text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. consequuntur vel vitae commodi alias voluptatem est voluptatum ipsa quae.',
   },
 ];
